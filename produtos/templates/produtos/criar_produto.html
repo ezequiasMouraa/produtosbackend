@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if produto %}Editar Produto{% else %}Novo Produto{% endif %}{% endblock %}
+
+{% block content %}
+  <h2>{% if produto %}Editar Produto{% else %}Novo Produto{% endif %}</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Salvar</button>
+  </form>
+  <a href="{% url 'lista_produtos' %}" class="btn btn-secondary">Voltar para a Lista</a>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Produtos{% endblock %}
+
+{% block content %}
+  <h2>Lista de Produtos</h2>
+  
+  <!-- Tabela para listar os produtos -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th>Data de Validade</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for produto in produtos %}
+        <tr>
+          <td>{{ produto.id }}</td>
+          <td>{{ produto.nome }}</td>
+          <td>{{ produto.descricao }}</td>
+          <td>{{ produto.preco }}</td>
+          <td>{{ produto.validade }}</td>
+          <td>
+            <!-- Botões de ação -->
+            <a href="{% url 'editar_produto' produto.id %}" class="btn btn-warning">Editar</a>
+
+            <!-- Botão que abre o modal de confirmação de exclusão -->
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmarExclusaoModal{{ produto.id }}">
+              Excluir
+            </button>
+
+            <!-- Modal de confirmação de exclusão -->
+            <div class="modal fade" id="confirmarExclusaoModal{{ produto.id }}" tabindex="-1" role="dialog" aria-labelledby="confirmarExclusaoModalLabel{{ produto.id }}" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarExclusaoModalLabel{{ produto.id }}">Confirmar Exclusão</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Você tem certeza que deseja excluir o produto "{{ produto.nome }}"?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <a href="{% url 'excluir_produto' produto.id %}" class="btn btn-danger">Confirmar Exclusão</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Botão para adicionar novo produto -->
+  <a href="{% url 'criar_produto' %}" class="btn btn-primary">Adicionar Novo Produto</a>
+{% endblock %}
